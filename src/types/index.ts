@@ -55,6 +55,7 @@ export interface Settings {
   nonInteractive: boolean;
   concurrency: number;
   overwrite: boolean;
+  flatten: boolean; // achatar subpastas dentro de multitracks
 }
 
 export interface ExecutionResult {
@@ -84,4 +85,5 @@ export const DEFAULT_SETTINGS: Partial<Settings> = {
   nonInteractive: false,
   concurrency: Math.min(4, os.cpus().length),
   overwrite: false,
+  flatten: true,
 };

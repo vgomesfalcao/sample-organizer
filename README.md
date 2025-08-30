@@ -40,6 +40,7 @@ Nome da Musica-Autor-Tom-XXbpm/
 ```
 
 - O diretório `multitracks/` é mantido caso exista na origem; se os arquivos estiverem soltos, eles serão colocados dentro de `multitracks/` na saída.
+- Por padrão, subpastas internas são achatadas (flatten) para evitar hierarquias profundas como `drums/kick.wav`; nesse caso vira `drums-kick.mp3`. Você pode desativar com `--no-flatten`.
 - Somente arquivos de áudio relevantes serão mantidos/conversos para MP3 (por padrão: `.wav`, `.m4a`, `.mp3`).
 
 ## Padrão de nomenclatura
@@ -145,6 +146,7 @@ npm run dev -- import-csv metadata.csv
 Opções principais:
 
 - `--source PATH`, `--dest PATH`, `--bitrate 320k`, `--reencode-mp3`, `--dry-run`, `--non-interactive`, `--concurrency 2`.
+  - `--flatten/--no-flatten` — achatar (padrão) ou manter hierarquia de subpastas dentro de `multitracks/`.
 
 ## Exemplos de saída
 

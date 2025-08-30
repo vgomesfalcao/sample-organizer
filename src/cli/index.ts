@@ -32,6 +32,7 @@ interface CLIFlags {
   nonInteractive: boolean;
   tui: boolean;
   concurrency: number;
+  flatten?: boolean;
 }
 
 async function askForFolder(message: string, initial?: string): Promise<string> {
@@ -91,7 +92,8 @@ program
   .option('--non-interactive', 'Sem prompts interativos', false)
   .option('--tui', 'Abrir interface TUI', false)
   .option('--concurrency <n>', 'Concorrência de operações', (v) => parseInt(v, 10), 2)
-  .option('--scan [src]', 'Atalho: executa o scan (opcionalmente informando a origem)');
+  .option('--scan [src]', 'Atalho: executa o scan (opcionalmente informando a origem)')
+  .option('--flatten', 'Achatar subpastas internas em multitracks/', true);
 
 program
   .command('scan')
@@ -137,6 +139,7 @@ program
       nonInteractive: !!flags.nonInteractive,
       concurrency: Number.isFinite(flags.concurrency) ? flags.concurrency : (DEFAULT_SETTINGS.concurrency as number),
       overwrite: false,
+  flatten: flags.flatten ?? (DEFAULT_SETTINGS.flatten as boolean),
     };
     const results = await runPipeline(settings);
     const ok = results.filter(r => r.success).length;
