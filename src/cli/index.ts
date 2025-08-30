@@ -7,6 +7,9 @@ import { scanSource } from '../core/scanner.js';
 import { hydrateSongsWithMetadata } from '../core/metadata.js';
 import { runPipeline } from '../services/orchestrator.js';
 import { DEFAULT_SETTINGS, type Settings } from '../types/index.js';
+import React from 'react';
+import { render } from 'ink';
+import App from '../tui/App.js';
 
 // Registro lazy do prompt de seleção de árvore (ESM default)
 let fileTreeRegistered = false;
@@ -111,7 +114,9 @@ program
   .command('tui')
   .description('Abre a interface TUI (em breve)')
   .action(async () => {
-    logger.info('TUI ainda não implementada.');
+  const flags = program.opts<CLIFlags>();
+  const source = await resolveSource(flags);
+  render(React.createElement(App, { source }));
   });
 
 program

@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { sanitizeFileName, removeExtension, formatFileSize } from '../src/utils/fs';
-import { processWithLimit } from '../src/utils/concurrency';
+import { sanitizeFileName, removeExtension, formatFileSize } from '../src/utils/fs.js';
+import { processWithLimit } from '../src/utils/concurrency.js';
 
 describe('utils/fs', () => {
   it('sanitizeFileName remove chars inválidos e normaliza espaços', () => {
@@ -27,7 +27,7 @@ describe('utils/concurrency', () => {
 
     const results = await processWithLimit(
       items,
-      async (n) => {
+      async (n: number) => {
         await new Promise((r) => setTimeout(r, 100));
         return n * 2;
       },
