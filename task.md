@@ -30,7 +30,7 @@ Scanner e metadados
 CLI e fluxo inicial
 - [x] Implementar `src/cli/index.ts` com commander (flags: source, dest, bitrate, reencode-mp3, dry-run, non-interactive, tui, concurrency)
 - [x] Implementar comando `scan` (listar músicas e status de metadados)
-- [ ] Implementar comando `tui` (abrir TUI)
+- [x] Implementar comando `tui` (abrir TUI)
 - [x] Implementar comando `run` (pipeline básico até dry-run)
 
 TUI com edição em lote (ink)
@@ -39,7 +39,7 @@ TUI com edição em lote (ink)
 - [ ] Seleção múltipla e “aplicar a selecionados” (Autor/Tom/BPM)
 - [ ] Filtros (faltando autor/key/bpm)
 - [ ] Atalhos (setas, Enter, a/A, k/K, b/B, s)
-- [ ] Persistência: salvar/retomar alterações em `metadata.json`
+- [x] Persistência: salvar/retomar alterações em `metadata.json`
 - [ ] Exportar/Importar CSV de metadados (opcional, recomendado)
 
 Seleção de pastas multiplataforma
