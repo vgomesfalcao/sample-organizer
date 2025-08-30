@@ -10,7 +10,7 @@ Preparação do ambiente
 Bootstrap do projeto
 - [x] Criar `package.json` com scripts básicos (dev, tui, build, start, test, lint, format)
 - [x] Criar `tsconfig.json` com suporte a JSX (ink) e saída em `dist`
-- [ ] Adicionar `.eslintrc` e `.prettierrc` (opcional, recomendado)
+- [x] Adicionar `.eslintrc` e `.prettierrc` (opcional, recomendado)
 - [x] Adicionar `.gitignore` (node, dist, cache, metadata local)
 - [x] Instalar dependências runtime (commander, inquirer, inquirer-file-tree-selection-prompt, chalk, ora, cli-progress, fast-glob, fs-extra, music-metadata, fluent-ffmpeg, p-limit, react, ink)
 - [x] Instalar dependências de desenvolvimento (typescript, tsx, @types/node, vitest, eslint, prettier)
@@ -34,8 +34,8 @@ CLI e fluxo inicial
 - [x] Implementar comando `run` (pipeline básico até dry-run)
 
 TUI com edição em lote (ink)
-- [ ] Criar `src/tui/App.tsx` com tabela (Title, Author, Key, BPM, Status)
-- [ ] Navegação e edição inline por célula
+- [x] Criar `src/tui/App.tsx` com tabela (Title, Author, Key, BPM, Status)
+- [x] Navegação e edição inline por célula
 - [ ] Seleção múltipla e “aplicar a selecionados” (Autor/Tom/BPM)
 - [ ] Filtros (faltando autor/key/bpm)
 - [ ] Atalhos (setas, Enter, a/A, k/K, b/B, s)
@@ -49,8 +49,8 @@ Seleção de pastas multiplataforma
 Planejamento e conversão
 - [x] Implementar `src/core/planner.ts` (definir convert/copy/ignore e destinos)
 - [x] Implementar `src/core/ffmpeg.ts` (convert `.wav`/`.m4a`, copiar `.mp3`, bitrate padrão 320k, `--reencode-mp3`)
-- [ ] Criar diretório destino `Nome-.../multitracks/` e escrever arquivos
-- [ ] Validar saídas e lidar com erros (continuar em caso de falhas isoladas)
+- [x] Criar diretório destino `Nome-.../multitracks/` e escrever arquivos
+- [x] Validar saídas e lidar com erros (continuar em caso de falhas isoladas)
 
 Orquestração e progresso
 - [x] Implementar `src/services/orchestrator.ts` (scan → meta → TUI se necessário → plano → execução)
@@ -59,9 +59,9 @@ Orquestração e progresso
 - [x] Respeitar `--dry-run` e `--non-interactive`
 
 Testes e qualidade
-- [ ] Unit: `naming.ts` (sanitize, montagem, colisões)
+- [x] Unit: `naming.ts` (sanitize, montagem, colisões)
 - [ ] Unit: `scanner.ts` (com/sem `multitracks/`)
-- [ ] Unit: `metadata.ts` (load/save/merge)
+- [x] Unit: `metadata.ts` (load/save/merge)
 - [ ] Integração: `planner + ffmpeg` (mocks)
 - [ ] Integração: `orchestrator` dry-run
 - [ ] E2E local com fixtures reais (opcional) e ffmpeg instalado

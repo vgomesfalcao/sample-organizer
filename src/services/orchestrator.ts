@@ -27,12 +27,18 @@ export async function runPipeline(settings: Settings): Promise<ExecutionResult[]
   }, cliProgress.Presets.shades_classic);
   bar.start(plan.operations.length, 0, { song: '' });
 
-  const results: ExecutionResult[] = [];
-  for (const op of plan.operations) {
-    const res = await limit(() => executeOperation(op, settings.bitrate));
-    results.push(res);
-    bar.increment({ song: op.track.relPath });
-  }
+  const results: ExecutionResult[] = await Promise.all(
+    plan.operations.map(op => limit(async () => {
+      try {
+        const r = await executeOperation(op, settings.bitrate);
+        bar.increment({ song: op.track.relPath });
+        return r;
+      } catch (err: any) {
+        bar.increment({ song: op.track.relPath });
+        return { success: false, operation: op, error: err?.message ?? String(err) } as ExecutionResult;
+      }
+    }))
+  );
   bar.stop();
   return results;
 }

@@ -27,6 +27,7 @@ export default function App({ source }: { source: string }) {
     author: s.meta.author || '',
     key: s.meta.key || '',
     bpm: s.meta.bpm?.toString() || '',
+    status: (!s.meta.author || !s.meta.key || !s.meta.bpm) ? 'incompleto' : 'ok',
     files: s.files.length.toString(),
   })), [songs]);
 
@@ -89,13 +90,13 @@ export default function App({ source }: { source: string }) {
       <Text>Setas para navegar • t/a/k/b para editar • Enter para salvar • Esc para cancelar • q para sair</Text>
       <Box marginTop={1}>
         <Text>
-          {`Idx Title                          Author              Key   BPM  Files`}
+          {`Idx Title                          Author              Key   BPM  Status      Files`}
         </Text>
       </Box>
       {rows.map((r, i) => (
         <Box key={i}>
           <Text color={i === idx ? 'cyan' : undefined}>
-            {`${String(i).padStart(3)} ${r.title.padEnd(30).slice(0,30)}  ${r.author.padEnd(18).slice(0,18)}  ${r.key.padEnd(4).slice(0,4)}  ${r.bpm.padStart(4).slice(0,4)}  ${r.files.padStart(3)}`}
+            {`${String(i).padStart(3)} ${r.title.padEnd(30).slice(0,30)}  ${r.author.padEnd(18).slice(0,18)}  ${r.key.padEnd(4).slice(0,4)}  ${r.bpm.padStart(4).slice(0,4)}  ${r.status.padEnd(11).slice(0,11)}  ${r.files.padStart(3)}`}
           </Text>
         </Box>
       ))}

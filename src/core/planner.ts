@@ -7,7 +7,10 @@ export async function buildPlan(songs: Song[], settings: Settings): Promise<Plan
   for (const song of songs) {
     const destRoot = await resolveDestination(settings.dest, song);
     for (const track of song.files) {
-      const destPath = path.join(destRoot, 'multitracks', track.relPath.replace(/\\/g, '/'));
+      // Ajustar extensão para .mp3 quando for conversão
+      const relNormalized = track.relPath.replace(/\\/g, '/');
+      const relMp3 = track.ext !== '.mp3' ? relNormalized.replace(/\.[^.]+$/i, '.mp3') : relNormalized;
+      const destPath = path.join(destRoot, 'multitracks', relMp3);
       const isMp3 = track.ext === '.mp3';
       const action = isMp3 ? (settings.reencodeMp3 ? 'convert' : 'copy') : 'convert';
       operations.push({ songId: song.id, track, destPath, action });
