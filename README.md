@@ -10,6 +10,26 @@ Ferramenta de linha de comando para organizar uma coleção de multitracks, mant
 - Ignora arquivos e pastas irrelevantes.
 - Pergunta ao usuário o destino da coleção MP3 e completa informações faltantes do nome da música.
 
+## Decisão de stack (Node.js + TypeScript)
+
+- Plataforma: Node.js 18+ com TypeScript.
+- Conversão: `fluent-ffmpeg` invocando `ffmpeg`/`ffprobe` instalados no sistema.
+- CLI/UX: `commander` (parâmetros), `inquirer` (prompts), `chalk` (cores), `ora` (spinners), `cli-progress` (barras).
+- Descoberta de arquivos: `fast-glob` e `fs-extra`.
+- Metadados de áudio: `music-metadata`.
+- Concorrência: `p-limit` para limitar trabalhos simultâneos (equilíbrio CPU/IO).
+- TUI: `ink` (preferida) ou `blessed` para UI no terminal com edição em lote.
+
+## Interação (CLI/TUI com edição em lote)
+
+- TUI lista músicas com metadados faltantes e permite:
+  - Edição inline por célula (Nome/Autor/Tom/BPM) e busca/filtragem.
+  - Seleção múltipla e “aplicar a selecionados” (ex.: preencher Autor/Tom/BPM para várias faixas).
+  - Atalhos úteis para navegação e edição rápida.
+- Progresso e cache: salvar/retomar em `metadata.json` por música/pasta.
+- Escolha de pastas (macOS): diálogos nativos via AppleScript (`osascript`) para selecionar origem/destino.
+  - Multiplataforma: há fallback para digitar/colar os caminhos diretamente no terminal.
+
 ## Estrutura de saída (coleção MP3)
 
 Para cada música, a estrutura gerada será:
@@ -65,26 +85,60 @@ A coleção WAV original não é alterada nem removida.
 ## Pré-requisitos
 
 - macOS (testado) — deve funcionar também em Windows/Linux.
-- FFmpeg instalado (utilizado para conversão de áudio).
-- Python 3.10+ (recomendado) ou Node.js 18+ (alternativo) — a implementação de referência usa Python.
+- FFmpeg e FFprobe instalados (utilizados para conversão e leitura de streams).
+  - macOS: `brew install ffmpeg`
+- Node.js 18+ e npm/pnpm/yarn.
+- macOS: AppleScript (`osascript`) já incluso no sistema, usado opcionalmente para diálogos “choose folder”.
 
-## Instalação (proposta em Python)
+## Instalação (Node.js + TypeScript)
 
-- FFmpeg via Homebrew (macOS):
-  - `brew install ffmpeg`
-- Ambiente Python e dependências:
-  - `python3 -m venv .venv`
-  - `source .venv/bin/activate`
-  - `pip install typer rich tqdm pydantic pydub`
+1) Clonar o repositório e instalar dependências:
 
-Observação: a ferramenta usará o executável `ffmpeg` do sistema.
+```bash
+git clone <este-repo>
+cd sample-organizer
+npm install
+```
 
-## Uso rápido (CLI proposto)
+Dependências previstas:
 
-- Executar assistente interativo (recomendado no primeiro uso):
-  - `python -m sample_organizer`
+- Runtime: `commander`, `inquirer`, `chalk`, `ora`, `cli-progress`, `fast-glob`, `fs-extra`, `music-metadata`, `fluent-ffmpeg`, `p-limit`
+- Dev: `typescript`, `ts-node` ou `tsx`, `@types/node`, `eslint`/`prettier` (opcional)
+
+Observação: `fluent-ffmpeg` requer `ffmpeg` e `ffprobe` acessíveis no PATH.
+
+## Scripts npm sugeridos
+
+```json
+{
+  "scripts": {
+    "dev": "tsx src/index.ts",
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/index.js",
+    "lint": "eslint ."
+  }
+}
+```
+
+## Uso rápido (CLI em Node/TS)
+
+- Assistente interativo (recomendado no primeiro uso):
+
+```bash
+npm run dev
+```
+
 - Executar com parâmetros explícitos:
-  - `python -m sample_organizer --source "/caminho/da/colecao-wav" --dest "/caminho/para/mp3"`
+
+```bash
+npm run dev -- --source "/caminho/da/colecao-wav" --dest "/caminho/para/mp3" --bitrate 320k
+```
+
+Após `npm run build`:
+
+```bash
+npm start -- --source "/caminho/da/colecao-wav" --dest "/caminho/para/mp3"
+```
 
 Principais opções (sujeitas a ajustes na implementação):
 
@@ -157,7 +211,7 @@ No primeiro caso, as informações faltantes (Autor, Tom e BPM) foram perguntada
 
 ## Desempenho
 
-- Conversão em paralelo por música/arquivo (configurável, respeitando CPU/IO).
+- Conversão em paralelo por música/arquivo (configurável, respeitando CPU/IO) com `p-limit`.
 - Cache simples de decisões de metadados por música (para não perguntar novamente em reexecuções).
 
 ## Roadmap (sugestões)
