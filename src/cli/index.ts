@@ -10,6 +10,7 @@ import { DEFAULT_SETTINGS, type Settings } from '../types/index.js';
 import React from 'react';
 import { render } from 'ink';
 import App from '../tui/App.js';
+import { songsToCsvString, saveCsv, parseCsv, applyCsvRows } from '../core/csv.js';
 
 // Registro lazy do prompt de seleção de árvore (ESM default)
 let fileTreeRegistered = false;
@@ -112,7 +113,7 @@ program
 
 program
   .command('tui')
-  .description('Abre a interface TUI (em breve)')
+  .description('Abre a interface TUI para editar metadados')
   .action(async () => {
   const flags = program.opts<CLIFlags>();
   const source = await resolveSource(flags);
@@ -121,7 +122,7 @@ program
 
 program
   .command('run')
-  .description('Executa o pipeline até dry-run (em breve)')
+  .description('Executa o pipeline (scan → plano → copiar/convert)')
   .action(async () => {
     const flags = program.opts<CLIFlags>();
     const source = await resolveSource(flags);
@@ -140,6 +141,31 @@ program
     const ok = results.filter(r => r.success).length;
     const fail = results.length - ok;
     logger.info(`Concluído. Sucesso: ${ok}, Falhas: ${fail}`);
+  });
+
+program
+  .command('export-csv')
+  .description('Exporta metadados das músicas para um CSV')
+  .option('--out <file>', 'Arquivo CSV de saída', 'metadata.csv')
+  .action(async (cmd) => {
+    const flags = program.opts<CLIFlags>();
+    const source = await resolveSource(flags);
+    const scanned = await scanSource(source);
+    const hydrated = await hydrateSongsWithMetadata(scanned);
+    const csv = songsToCsvString(hydrated);
+    await saveCsv(cmd.out, csv);
+    logger.info(`CSV exportado para ${cmd.out}`);
+  });
+
+program
+  .command('import-csv')
+  .description('Importa metadados de um CSV e aplica nas músicas via metadata.json')
+  .argument('<file>', 'Arquivo CSV para importar')
+  .action(async (file: string) => {
+    const content = await (await import('fs/promises')).readFile(file, 'utf8');
+    const rows = parseCsv(content);
+    await applyCsvRows(rows);
+    logger.info(`CSV importado: ${rows.length} linhas aplicadas`);
   });
 
 // Fallback: permitir --scan sem subcomando

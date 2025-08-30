@@ -99,54 +99,52 @@ cd sample-organizer
 npm install
 ```
 
-Dependências previstas:
+Dependências principais já configuradas (veja `package.json`):
 
-- Runtime: `commander`, `inquirer`, `chalk`, `ora`, `cli-progress`, `fast-glob`, `fs-extra`, `music-metadata`, `fluent-ffmpeg`, `p-limit`
-- Dev: `typescript`, `ts-node` ou `tsx`, `@types/node`, `eslint`/`prettier` (opcional)
+- Runtime: `commander`, `inquirer`, `inquirer-file-tree-selection-prompt`, `chalk`, `ora`, `cli-progress`, `fast-glob`, `fs-extra`, `music-metadata`, `fluent-ffmpeg`, `p-limit`, `react`, `ink`
+- Dev: `typescript`, `tsx`, `vitest`, `eslint`, `prettier`, `@types/*`
 
 Observação: `fluent-ffmpeg` requer `ffmpeg` e `ffprobe` acessíveis no PATH.
 
-## Scripts npm sugeridos
+## Scripts npm úteis
 
-```json
-{
-  "scripts": {
-    "dev": "tsx src/index.ts",
-    "build": "tsc -p tsconfig.json",
-    "start": "node dist/index.js",
-    "lint": "eslint ."
-  }
-}
-```
+- `npm run dev` — roda a CLI em TypeScript.
+- `npm run tui` — abre a interface TUI diretamente.
+- `npm run build` — compila para `dist/`.
+- `npm start` — executa a versão compilada.
+- `npm test` — roda os testes (Vitest).
+- `npm run lint` / `npm run format`.
 
-## Uso rápido (CLI em Node/TS)
+## Uso rápido (CLI)
 
-- Assistente interativo (recomendado no primeiro uso):
+- Listar músicas e status de metadados:
 
 ```bash
-npm run dev
+npm run dev -- scan --source "/caminho/da/colecao"
 ```
 
-- Executar com parâmetros explícitos:
+- Abrir TUI para editar metadados:
 
 ```bash
-npm run dev -- --source "/caminho/da/colecao-wav" --dest "/caminho/para/mp3" --bitrate 320k
+npm run tui -- --source "/caminho/da/colecao"
 ```
 
-Após `npm run build`:
+- Executar pipeline completo (scan → planejar → converter/copiar):
 
 ```bash
-npm start -- --source "/caminho/da/colecao-wav" --dest "/caminho/para/mp3"
+npm run dev -- run --source "/caminho/da/colecao" --dest "/caminho/mp3" --bitrate 320k
 ```
 
-Principais opções (sujeitas a ajustes na implementação):
+- Exportar metadados para CSV e importar de volta:
 
-- `--source PATH` — caminho da coleção original (WAV/M4A/MP3).
-- `--dest PATH` — caminho da coleção MP3 (será criado se não existir).
-- `--bitrate 320k` — taxa do MP3 (ex.: `320k`, `192k`, `V0`).
-- `--reencode-mp3` — força reencode de MP3 existentes.
-- `--dry-run` — simula a execução sem converter/copiar arquivos.
-- `--non-interactive` — falha se faltar metadados ao invés de perguntar.
+```bash
+npm run dev -- export-csv --source "/caminho/da/colecao" --out metadata.csv
+npm run dev -- import-csv metadata.csv
+```
+
+Opções principais:
+
+- `--source PATH`, `--dest PATH`, `--bitrate 320k`, `--reencode-mp3`, `--dry-run`, `--non-interactive`, `--concurrency 2`.
 
 ## Exemplos de saída
 
@@ -215,9 +213,9 @@ No primeiro caso, as informações faltantes (Autor, Tom e BPM) foram perguntada
 
 ## Roadmap (sugestões)
 
-- Arquivo `metadata.json` por música, com Autor/Tom/BPM cadastrados.
-- Exportar/Importar CSV para metadados em lote.
-- UI simples (TUI) para revisão de metadados em massa.
+- Arquivo `metadata.json` por música, com Autor/Tom/BPM cadastrados. (feito)
+- Exportar/Importar CSV para metadados em lote. (feito)
+- UI simples (TUI) para revisão de metadados em massa. (feito)
 - Normalização de loudness e ganho automático.
 - Suporte a mais formatos (AIFF/FLAC/OGG) configuráveis.
 

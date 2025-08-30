@@ -36,11 +36,11 @@ CLI e fluxo inicial
 TUI com edição em lote (ink)
 - [x] Criar `src/tui/App.tsx` com tabela (Title, Author, Key, BPM, Status)
 - [x] Navegação e edição inline por célula
-- [ ] Seleção múltipla e “aplicar a selecionados” (Autor/Tom/BPM)
-- [ ] Filtros (faltando autor/key/bpm)
-- [ ] Atalhos (setas, Enter, a/A, k/K, b/B, s)
+- [x] Seleção múltipla e “aplicar a selecionados” (Autor/Tom/BPM)
+- [x] Filtros (faltando autor/key/bpm)
+- [x] Atalhos (setas, Enter, a/A, k/K, b/B, s)
 - [x] Persistência: salvar/retomar alterações em `metadata.json`
-- [ ] Exportar/Importar CSV de metadados (opcional, recomendado)
+- [x] Exportar/Importar CSV de metadados (opcional, recomendado)
 
 Seleção de pastas multiplataforma
 - [x] Integrar `inquirer-file-tree-selection-prompt` para escolher `source`/`dest` no terminal
@@ -60,17 +60,17 @@ Orquestração e progresso
 
 Testes e qualidade
 - [x] Unit: `naming.ts` (sanitize, montagem, colisões)
-- [ ] Unit: `scanner.ts` (com/sem `multitracks/`)
+- [x] Unit: `scanner.ts` (com/sem `multitracks/`)
 - [x] Unit: `metadata.ts` (load/save/merge)
-- [ ] Integração: `planner + ffmpeg` (mocks)
-- [ ] Integração: `orchestrator` dry-run
+- [x] Integração: `planner + ffmpeg` (mocks)
+- [x] Integração: `orchestrator` dry-run
 - [ ] E2E local com fixtures reais (opcional) e ffmpeg instalado
-- [ ] Lint e format (CI opcional)
+- [x] Lint e format (CI opcional)
 
 Documentação e entrega
-- [ ] Atualizar `README.md` (uso CLI/TUI, requisitos, opções, exemplos)
+- [x] Atualizar `README.md` (uso CLI/TUI, requisitos, opções, exemplos)
 - [ ] Adicionar GIF curto da TUI (opcional)
-- [ ] Revisar `task.md` conforme ajustes
+- [x] Revisar `task.md` conforme ajustes
 - [ ] Publicar pacote npm (opcional) ou distribuir via repositório
 
 Aceite final
