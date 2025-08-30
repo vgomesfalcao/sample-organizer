@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "ESNext",
+    "moduleResolution": "Node",
+  // outDir/rootDir serão definidos no tsconfig.build.json
+    "strict": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "jsx": "react-jsx",
+    "jsxImportSource": "react",
+    "allowImportingTsExtensions": false,
+    "noEmit": false
+  },
+  "include": [
+  "src/**/*",
+  "tests/**/*.ts",
+  "vitest.config.ts"
+  ],
+  "exclude": [
+  "node_modules",
+  "dist"
+  ]
+}
