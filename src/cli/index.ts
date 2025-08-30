@@ -17,8 +17,9 @@ let fileTreeRegistered = false;
 async function ensureFileTreePrompt() {
   if (fileTreeRegistered) return;
   const mod = await import('inquirer-file-tree-selection-prompt');
-  const PromptCtor = (mod as any).default ?? mod;
-  (inquirer as any).registerPrompt('file-tree-selection', PromptCtor);
+  // módulo ESM pode exportar default; tipagem de inquirer não expõe registerPrompt com tipos genéricos
+  const PromptCtor: unknown = (mod as unknown as { default?: unknown }).default ?? (mod as unknown);
+  (inquirer as unknown as { registerPrompt: (name: string, ctor: unknown) => void }).registerPrompt('file-tree-selection', PromptCtor);
   fileTreeRegistered = true;
 }
 

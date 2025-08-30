@@ -62,7 +62,9 @@ export default function App({ source }: { source: string }) {
             const n = parseInt(buffer, 10);
             if (!Number.isNaN(n)) meta.bpm = n;
           } else {
-            (meta as any)[editing] = buffer;
+            if (editing === 'title') meta.title = buffer;
+            if (editing === 'author') meta.author = buffer;
+            if (editing === 'key') meta.key = buffer;
           }
           current.meta = meta;
           copy[realIndex] = current;
@@ -117,8 +119,10 @@ export default function App({ source }: { source: string }) {
         const copy = [...prev];
         for (const i of selectedSet) {
           const cur = { ...copy[i] };
-          const meta = { ...cur.meta } as any;
-          meta[field] = field === 'bpm' ? Number(value) : value;
+          const meta = { ...cur.meta };
+          if (field === 'bpm') meta.bpm = Number(value);
+          if (field === 'author') meta.author = String(value);
+          if (field === 'key') meta.key = String(value);
           cur.meta = meta;
           copy[i] = cur;
           // Persistir
@@ -138,7 +142,12 @@ export default function App({ source }: { source: string }) {
     }
     else if (input === 's') {
       // salvar tudo explicitamente
-      songs.forEach((s) => saveSongMetadata(s.sourcePath, s.meta as any).catch(() => {}));
+      songs.forEach((s) => saveSongMetadata(s.sourcePath, {
+        title: s.meta.title,
+        author: s.meta.author,
+        key: s.meta.key,
+        bpm: s.meta.bpm,
+      }).catch(() => {}));
     }
     else if (input === 'q') { process.exit(0); }
   });

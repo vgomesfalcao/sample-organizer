@@ -33,9 +33,10 @@ export async function runPipeline(settings: Settings): Promise<ExecutionResult[]
         const r = await executeOperation(op, settings.bitrate);
         bar.increment({ song: op.track.relPath });
         return r;
-      } catch (err: any) {
+      } catch (err) {
+        const message = err instanceof Error ? err.message : String(err);
         bar.increment({ song: op.track.relPath });
-        return { success: false, operation: op, error: err?.message ?? String(err) } as ExecutionResult;
+        return { success: false, operation: op, error: message } as ExecutionResult;
       }
     }))
   );

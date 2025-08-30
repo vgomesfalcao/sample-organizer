@@ -45,7 +45,7 @@ export async function scanSource(source: string): Promise<Song[]> {
   }
 
   const stats = await fs.stat(src);
-  let candidates: ScannedSong[] = [];
+  const candidates: ScannedSong[] = [];
 
   if (stats.isFile()) {
     if (!isAudio(src)) return [];

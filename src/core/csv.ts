@@ -90,7 +90,10 @@ export function parseCsv(content: string): CsvRow[] {
       key: unescapeCsv(parts[iKey] ?? ''),
       bpm: unescapeCsv(parts[iBpm] ?? ''),
     };
-    if (row.bpm === '') delete (row as any).bpm;
+    if (row.bpm === '') {
+      // remover bpm vazio mantendo o tipo de CsvRow (bpm opcional)
+      delete (row as { bpm?: number | string }).bpm;
+    }
     return row;
   });
 }
