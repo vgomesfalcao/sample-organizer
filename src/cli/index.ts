@@ -5,11 +5,18 @@ import path from 'path';
 import { logger } from '../utils/logger.js';
 import { scanSource } from '../core/scanner.js';
 import { hydrateSongsWithMetadata } from '../core/metadata.js';
+import { runPipeline } from '../services/orchestrator.js';
+import { DEFAULT_SETTINGS, type Settings } from '../types/index.js';
 
-// Registrar prompt de seleção de árvore de arquivos
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const fileTreePrompt = require('inquirer-file-tree-selection-prompt');
-(inquirer as any).registerPrompt('file-tree-selection', fileTreePrompt);
+// Registro lazy do prompt de seleção de árvore (ESM default)
+let fileTreeRegistered = false;
+async function ensureFileTreePrompt() {
+  if (fileTreeRegistered) return;
+  const mod = await import('inquirer-file-tree-selection-prompt');
+  const PromptCtor = (mod as any).default ?? mod;
+  (inquirer as any).registerPrompt('file-tree-selection', PromptCtor);
+  fileTreeRegistered = true;
+}
 
 interface CLIFlags {
   source?: string;
@@ -47,6 +54,7 @@ async function askForFolder(message: string, initial?: string): Promise<string> 
     return path.resolve(manual);
   }
 
+  await ensureFileTreePrompt();
   const { folder } = await inquirer.prompt([
     {
       type: 'file-tree-selection',
@@ -110,7 +118,23 @@ program
   .command('run')
   .description('Executa o pipeline até dry-run (em breve)')
   .action(async () => {
-    logger.info('Run ainda não implementado.');
+    const flags = program.opts<CLIFlags>();
+    const source = await resolveSource(flags);
+    const dest = flags.dest ? flags.dest : await askForFolder('Selecione a pasta de destino (dest):');
+    const settings: Settings = {
+      source,
+      dest,
+      bitrate: flags.bitrate || (DEFAULT_SETTINGS.bitrate as string),
+      reencodeMp3: !!flags.reencodeMp3,
+      dryRun: !!flags.dryRun,
+      nonInteractive: !!flags.nonInteractive,
+      concurrency: Number.isFinite(flags.concurrency) ? flags.concurrency : (DEFAULT_SETTINGS.concurrency as number),
+      overwrite: false,
+    };
+    const results = await runPipeline(settings);
+    const ok = results.filter(r => r.success).length;
+    const fail = results.length - ok;
+    logger.info(`Concluído. Sucesso: ${ok}, Falhas: ${fail}`);
   });
 
 // Fallback: permitir --scan sem subcomando

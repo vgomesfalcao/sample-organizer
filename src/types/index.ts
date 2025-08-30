@@ -1,3 +1,4 @@
+import os from 'os';
 export interface Song {
   id: string;
   sourcePath: string;
@@ -81,6 +82,6 @@ export const DEFAULT_SETTINGS: Partial<Settings> = {
   reencodeMp3: false,
   dryRun: false,
   nonInteractive: false,
-  concurrency: Math.min(4, require('os').cpus().length),
+  concurrency: Math.min(4, os.cpus().length),
   overwrite: false,
 };

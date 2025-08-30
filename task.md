@@ -31,7 +31,7 @@ CLI e fluxo inicial
 - [x] Implementar `src/cli/index.ts` com commander (flags: source, dest, bitrate, reencode-mp3, dry-run, non-interactive, tui, concurrency)
 - [x] Implementar comando `scan` (listar músicas e status de metadados)
 - [ ] Implementar comando `tui` (abrir TUI)
-- [ ] Implementar comando `run` (pipeline básico até dry-run)
+- [x] Implementar comando `run` (pipeline básico até dry-run)
 
 TUI com edição em lote (ink)
 - [ ] Criar `src/tui/App.tsx` com tabela (Title, Author, Key, BPM, Status)
@@ -54,9 +54,9 @@ Planejamento e conversão
 
 Orquestração e progresso
 - [x] Implementar `src/services/orchestrator.ts` (scan → meta → TUI se necessário → plano → execução)
-- [ ] Adicionar barras de progresso com `cli-progress` e spinners com `ora`
-- [ ] Concorrência com `p-limit` e opção `--concurrency`
-- [ ] Respeitar `--dry-run` e `--non-interactive`
+- [x] Adicionar barras de progresso com `cli-progress` e spinners com `ora`
+- [x] Concorrência com `p-limit` e opção `--concurrency`
+- [x] Respeitar `--dry-run` e `--non-interactive`
 
 Testes e qualidade
 - [ ] Unit: `naming.ts` (sanitize, montagem, colisões)
