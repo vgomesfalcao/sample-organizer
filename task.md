@@ -23,13 +23,13 @@ Estrutura e tipos
 - [x] Logger simples em `src/utils/logger.ts`
 
 Scanner e metadados
-- [ ] Implementar `src/core/scanner.ts` (detectar músicas, `multitracks/` ou arquivos soltos)
-- [ ] Implementar `src/core/metadata.ts` (load/save `metadata.json` por música)
-- [ ] Implementar `src/core/naming.ts` (inferir e montar `Nome-Autor-Tom-XXbpm`, sanitize, colisões)
+- [x] Implementar `src/core/scanner.ts` (detectar músicas, `multitracks/` ou arquivos soltos)
+- [x] Implementar `src/core/metadata.ts` (load/save `metadata.json` por música)
+- [x] Implementar `src/core/naming.ts` (inferir e montar `Nome-Autor-Tom-XXbpm`, sanitize, colisões)
 
 CLI e fluxo inicial
-- [ ] Implementar `src/cli/index.ts` com commander (flags: source, dest, bitrate, reencode-mp3, dry-run, non-interactive, tui, concurrency)
-- [ ] Implementar comando `scan` (listar músicas e status de metadados)
+- [x] Implementar `src/cli/index.ts` com commander (flags: source, dest, bitrate, reencode-mp3, dry-run, non-interactive, tui, concurrency)
+- [x] Implementar comando `scan` (listar músicas e status de metadados)
 - [ ] Implementar comando `tui` (abrir TUI)
 - [ ] Implementar comando `run` (pipeline básico até dry-run)
 
@@ -43,17 +43,17 @@ TUI com edição em lote (ink)
 - [ ] Exportar/Importar CSV de metadados (opcional, recomendado)
 
 Seleção de pastas multiplataforma
-- [ ] Integrar `inquirer-file-tree-selection-prompt` para escolher `source`/`dest` no terminal
-- [ ] Oferecer input manual de caminho como alternativa
+- [x] Integrar `inquirer-file-tree-selection-prompt` para escolher `source`/`dest` no terminal
+- [x] Oferecer input manual de caminho como alternativa
 
 Planejamento e conversão
-- [ ] Implementar `src/core/planner.ts` (definir convert/copy/ignore e destinos)
-- [ ] Implementar `src/core/ffmpeg.ts` (convert `.wav`/`.m4a`, copiar `.mp3`, bitrate padrão 320k, `--reencode-mp3`)
+- [x] Implementar `src/core/planner.ts` (definir convert/copy/ignore e destinos)
+- [x] Implementar `src/core/ffmpeg.ts` (convert `.wav`/`.m4a`, copiar `.mp3`, bitrate padrão 320k, `--reencode-mp3`)
 - [ ] Criar diretório destino `Nome-.../multitracks/` e escrever arquivos
 - [ ] Validar saídas e lidar com erros (continuar em caso de falhas isoladas)
 
 Orquestração e progresso
-- [ ] Implementar `src/services/orchestrator.ts` (scan → meta → TUI se necessário → plano → execução)
+- [x] Implementar `src/services/orchestrator.ts` (scan → meta → TUI se necessário → plano → execução)
 - [ ] Adicionar barras de progresso com `cli-progress` e spinners com `ora`
 - [ ] Concorrência com `p-limit` e opção `--concurrency`
 - [ ] Respeitar `--dry-run` e `--non-interactive`
