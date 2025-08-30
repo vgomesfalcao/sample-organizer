@@ -14,7 +14,7 @@ Ferramenta de linha de comando para organizar uma coleção de multitracks, mant
 
 - Plataforma: Node.js 18+ com TypeScript.
 - Conversão: `fluent-ffmpeg` invocando `ffmpeg`/`ffprobe` instalados no sistema.
-- CLI/UX: `commander` (parâmetros), `inquirer` (prompts), `chalk` (cores), `ora` (spinners), `cli-progress` (barras).
+- CLI/UX: `commander` (parâmetros), `inquirer` (prompts) + `inquirer-file-tree-selection-prompt` (seleção de diretório), `chalk` (cores), `ora` (spinners), `cli-progress` (barras).
 - Descoberta de arquivos: `fast-glob` e `fs-extra`.
 - Metadados de áudio: `music-metadata`.
 - Concorrência: `p-limit` para limitar trabalhos simultâneos (equilíbrio CPU/IO).
@@ -27,8 +27,7 @@ Ferramenta de linha de comando para organizar uma coleção de multitracks, mant
   - Seleção múltipla e “aplicar a selecionados” (ex.: preencher Autor/Tom/BPM para várias faixas).
   - Atalhos úteis para navegação e edição rápida.
 - Progresso e cache: salvar/retomar em `metadata.json` por música/pasta.
-- Escolha de pastas (macOS): diálogos nativos via AppleScript (`osascript`) para selecionar origem/destino.
-  - Multiplataforma: há fallback para digitar/colar os caminhos diretamente no terminal.
+- Seleção de pastas multiplataforma: no terminal, usando `inquirer-file-tree-selection-prompt` para navegar e escolher `source`/`dest`; também é possível digitar/colar caminhos manualmente.
 
 ## Estrutura de saída (coleção MP3)
 
@@ -88,7 +87,7 @@ A coleção WAV original não é alterada nem removida.
 - FFmpeg e FFprobe instalados (utilizados para conversão e leitura de streams).
   - macOS: `brew install ffmpeg`
 - Node.js 18+ e npm/pnpm/yarn.
-- macOS: AppleScript (`osascript`) já incluso no sistema, usado opcionalmente para diálogos “choose folder”.
+
 
 ## Instalação (Node.js + TypeScript)
 
