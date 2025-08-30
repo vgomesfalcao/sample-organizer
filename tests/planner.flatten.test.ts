@@ -44,18 +44,18 @@ describe('planner flatten', () => {
       inferredName: 'Song2',
       meta: { title: 'Song2' },
       files: [
-        { sourcePath: '/music/Song2/multitracks/kit1/kick.wav', relPath: 'kit1/kick.wav', ext: '.wav', kind: 'audio', action: 'convert' },
-        { sourcePath: '/music/Song2/multitracks/kit2/kick.aiff', relPath: 'kit2/kick.aiff', ext: '.aiff' as any, kind: 'audio', action: 'convert' },
-        { sourcePath: '/music/Song2/multitracks/kit3/kick.wav', relPath: 'kit3/kick.wav', ext: '.wav', kind: 'audio', action: 'convert' },
+        { sourcePath: '/music/Song2/multitracks/kit/kick.wav', relPath: 'kit/kick.wav', ext: '.wav', kind: 'audio', action: 'convert' },
+        { sourcePath: '/music/Song2/multitracks/kit/kick.m4a', relPath: 'kit/kick.m4a', ext: '.m4a', kind: 'audio', action: 'convert' },
+        { sourcePath: '/music/Song2/multitracks/kit/kick.mp3', relPath: 'kit/kick.mp3', ext: '.mp3', kind: 'audio', action: 'copy' },
       ],
     };
     const plan = await buildPlan([song], { ...baseSettings, flatten: true });
     const names = plan.operations.map(o => path.basename(o.destPath));
-    // Espera: kick.mp3, kick-v2.mp3, kick-v3.mp3 (ordem pode variar)
-    const base = names.filter(n => n === 'kit1-kick.mp3' || n === 'kit2-kick.mp3' || n === 'kit3-kick.mp3');
-    // Após a lógica de sufixo, pelo menos dois devem ter -v2/-v3 por colisão
-    const hasV2 = names.some(n => n.includes('-v2.mp3'));
-    const hasV3 = names.some(n => n.includes('-v3.mp3'));
+    // Espera colisões em 'kit-kick.mp3' gerando sufixos
+    const occurrences = names.filter(n => n.startsWith('kit-kick')).length;
+    expect(occurrences).toBe(3);
+    const hasV2 = names.some(n => n === 'kit-kick-v2.mp3');
+    const hasV3 = names.some(n => n === 'kit-kick-v3.mp3');
     expect(hasV2 || hasV3).toBe(true);
   });
 
