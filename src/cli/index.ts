@@ -140,7 +140,14 @@ program
     const results = await runPipeline(settings);
     const ok = results.filter(r => r.success).length;
     const fail = results.length - ok;
-    logger.info(`Concluído. Sucesso: ${ok}, Falhas: ${fail}`);
+  const byAction = (action: 'convert'|'copy'|'ignore') => results.filter(r => r.success && r.operation.action === action).length;
+  const converted = byAction('convert');
+  const copied = byAction('copy');
+  const ignored = byAction('ignore');
+  const totalDurationMs = results.reduce((acc, r) => acc + (r.duration ?? 0), 0);
+  const sec = (totalDurationMs/1000).toFixed(1);
+  logger.info(`Concluído. Sucesso: ${ok}, Falhas: ${fail}`);
+  logger.info(`Relatório: convertidos=${converted}, copiados=${copied}, ignorados=${ignored}, duração≈${sec}s`);
   });
 
 program
